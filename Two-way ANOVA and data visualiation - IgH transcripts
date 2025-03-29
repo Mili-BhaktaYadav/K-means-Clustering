@@ -1,0 +1,145 @@
+
+library(ggplot2) #call library
+library(dplyr) #call library to use "filter" command
+library(readr)
+library(forcats)
+library(tidyverse)
+library(ggpubr)
+
+#qPCR Data - CL-01 and 10F10 10-25-2021
+#EPSILON.......................................................................................................
+two_way_anova_epsilon <- aov(FoldChange ~ Treatment + Cell, data = epsilon)
+summary (two_way_anova_epsilon)
+TukeyHSD(two_way_anova_epsilon)
+
+CL01_e <- filter(epsilon, Cell == 1) 
+F10_e <- filter(epsilon, Cell == 2) 
+
+# Dot plot - CL-01 epsilon qPCR data 
+CL01_e_dp <- ggdotplot(CL01_e, x = "Treatment", y = "FoldChange",
+                     binwidth=0.03, size=1.5, fill="Treatment", color = "Treatment", palette = "npg", add = "mean_se", 
+                     title = "CL01 epsilon qPCR", error.plot = "errorbar") + ylim(0, 4)
+
+# Dot plot - 10F10 epsilon qPCR data 
+F10_e_dp <- ggdotplot(F10_e, x = "Treatment", y = "FoldChange",
+                     binwidth=0.03, size=1.5, fill="Treatment", color = "Treatment", palette = "npg", add = "mean_se", 
+                     title = "10F10 epsilon qPCR", error.plot = "errorbar")  + ylim(0, 4)
+
+CL01_e_dp
+F10_e_dp
+
+# Dot plot - Both CL-01 and 10F10 epsilon qPCR data 
+epsilon <- ggarrange(CL01_e_dp, F10_e_dp, ncol = 2, labels = c("A", "B"))
+epsilon
+
+#GAMMA3.......................................................................................................
+two_way_anova_gamma3 <- aov(FoldChange ~ Treatment + Cell, data = gamma3)
+summary (two_way_anova_gamma3)
+TukeyHSD(two_way_anova_gamma3)
+
+CL01_g3 <- filter(gamma3, Cell == 1) 
+F10_g3 <- filter(gamma3, Cell == 2) 
+
+# Dot plot - CL-01 gamma3 qPCR data 
+CL01_g3_dp <- ggdotplot(CL01_g3, x = "Treatment", y = "FoldChange",
+                     binwidth=0.03, size=1.5, fill="Treatment", color = "Treatment", palette = "npg", add = "mean_se", 
+                     title = "CL01 gamma3 qPCR", error.plot = "errorbar") + ylim(0, 5)
+
+# Dot plot - 10F10 epsilon qPCR data 
+F10_g3_dp <- ggdotplot(F10_g3, x = "Treatment", y = "FoldChange",
+                    binwidth=0.03, size=1.5, fill="Treatment", color = "Treatment", palette = "npg", add = "mean_se", 
+                    title = "10F10 gamma3 qPCR", error.plot = "errorbar")  + ylim(0, 5)
+
+CL01_g3_dp
+F10_g3_dp
+
+# Dot plot - Both CL-01 and 10F10 epsilon qPCR data 
+gamma3 <- ggarrange(CL01_g3_dp, F10_g3_dp, ncol = 2, labels = c("A", "B"))
+gamma3 
+
+
+
+#GAMMA4.......................................................................................................
+two_way_anova_gamma4 <- aov(FoldChange ~ Treatment + Cell, data = gamma4)
+summary (two_way_anova_gamma4)
+TukeyHSD(two_way_anova_gamma4)
+
+CL01_g4 <- filter(gamma4, Cell == 1) 
+F10_g4 <- filter(gamma4, Cell == 2) 
+
+# Dot plot - CL-01 gamma4 qPCR data 
+CL01_g4_dp <- ggdotplot(CL01_g4, x = "Treatment", y = "FoldChange",
+                        binwidth=0.03, size=1.5, fill="Treatment", color = "Treatment", palette = "npg", add = "mean_se", 
+                        title = "CL01 gamam4 qPCR", error.plot = "errorbar") + ylim(0, 5)
+
+# Dot plot - 10F10 epsilon qPCR data 
+F10_g4_dp <- ggdotplot(F10_g4, x = "Treatment", y = "FoldChange",
+                       binwidth=0.03, size=1.5, fill="Treatment", color = "Treatment", palette = "npg", add = "mean_se", 
+                       title = "10F10 gamma4 qPCR", error.plot = "errorbar")  + ylim(0, 5)
+
+CL01_g4_dp
+F10_g4_dp
+
+# Dot plot - Both CL-01 and 10F10 epsilon qPCR data 
+gamma4 <- ggarrange(CL01_g4_dp, F10_g4_dp, ncol = 2, labels = c("A", "B"))
+gamma4 
+
+
+
+
+#GAMMA1.......................................................................................................
+two_way_anova_gamma4 <- aov(FoldChange ~ Treatment + Cell, data = gamma1)
+summary (two_way_anova_gamma1)
+TukeyHSD(two_way_anova_gamma1)
+
+CL01_g1 <- filter(gamma1, Cell == 1) 
+F10_g1 <- filter(gamma1, Cell == 2) 
+
+# Dot plot - CL-01 gamma4 qPCR data 
+CL01_g1_dp <- ggdotplot(CL01_g1, x = "Treatment", y = "FoldChange",
+                        binwidth=0.03, size=1.5, fill="Treatment", color = "Treatment", palette = "npg", add = "mean_se", 
+                        title = "CL01 gamma1 qPCR", error.plot = "errorbar") 
+
+# Dot plot - 10F10 epsilon qPCR data 
+F10_g1_dp <- ggdotplot(F10_g1, x = "Treatment", y = "FoldChange",
+                       binwidth=0.03, size=1.5, fill="Treatment", color = "Treatment", palette = "npg", add = "mean_se", 
+                       title = "10F10 gamma1 qPCR", error.plot = "errorbar")  
+
+CL01_g1_dp
+F10_g1_dp
+
+# Dot plot - Both CL-01 and 10F10 epsilon qPCR data 
+gamma1 <- ggarrange(CL01_g1_dp, F10_g1_dp, ncol = 2, labels = c("A", "B"))
+gamma1
+
+
+
+
+#ALPHA1.......................................................................................................
+two_way_anova_alpha1 <- aov(FoldChange ~ Treatment + Cell, data = alpha1)
+summary (two_way_anova_alpha1)
+TukeyHSD(two_way_anova_alpha1)
+
+CL01_a1 <- filter(alpha1, Cell == 1) 
+F10_a1 <- filter(alpha1, Cell == 2) 
+
+# Dot plot - CL-01 alpha1 qPCR data 
+CL01_a1_dp <- ggdotplot(CL01_a1, x = "Treatment", y = "FoldChange",
+                        binwidth=0.03, size=1.5, fill="Treatment", color = "Treatment", palette = "npg", add = "mean_se", 
+                        title = "CL01 alpha1 qPCR", error.plot = "errorbar") 
+
+# Dot plot - 10F10 alpha1 qPCR data 
+F10_a1_dp <- ggdotplot(F10_a1, x = "Treatment", y = "FoldChange",
+                       binwidth=0.03, size=1.5, fill="Treatment", color = "Treatment", palette = "npg", add = "mean_se", 
+                       title = "10F10 alpha1 qPCR", error.plot = "errorbar")  
+
+CL01_a1_dp
+F10_a1_dp
+
+# Dot plot - Both CL-01 and 10F10 epsilon qPCR data 
+alpha1 <- ggarrange(CL01_a1_dp, F10_a1_dp, ncol = 2, labels = c("A", "B"))
+alpha1
+
+
+
+
