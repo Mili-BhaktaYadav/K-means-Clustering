@@ -1,0 +1,83 @@
+install.packages("tidymodels")
+install.packages("ggplot2")
+install.packages("ggplot")
+install.packages("ggmap")
+setwd("/Users/santoshyadav/Desktop/R kmeans clustering")
+
+read.csv("cluster.csv")
+
+install.packages("readxl")
+
+library(readxl)
+setwd("/Users/santoshyadav/Desktop/R kmeans clustering")
+getwd()
+cluster <- read_xlsx(path = "cluster1.xlsx")
+cluster
+
+#scale the data so that all variables are on the same scale.
+cluster[, c("'TLevels'", "NFkB")] = scale(cluster[, c("TLevels", "NFkB")])
+
+library(readxl)
+getwd()
+cluster <- read_xlsx(path = "cluster1.xlsx")
+
+cluster[, c("TLevels", "NFkB")] = scale(cluster[, c("TLevels", "NFkB")])
+
+# Pick the TLevels and a TF 
+cluster_NFkB <- cluster[, c("TLevels", "NFkB")]
+
+set.seed(123)
+km.out <- kmeans(cluster_NFkB, centers = 3, nstart = 20)
+km.out
+
+# Number of clusters to look at
+n_clusters <- 10
+
+# Initialize total within sum of squares 
+wss <- numeric(n_clusters)
+
+set.seed(123)
+
+# 1 to n possible clusters
+for (i in 1:10) {
+  # Fit the kmeans  model: km.out
+  km.out <- kmeans(cluster_SP1, centers = i, nstart = 20)
+  #save it
+  wss[i] <- km.out$tot.withinss
+}
+library(tibble)
+# Scree plot for visualization
+wss_df <- tibble(clusters = 1:10, wss = wss)
+
+scree_plot <- ggplot(wss_df, aes(x = clusters, y = wss, group = 1)) +
+  geom_point(size = 4)+
+  geom_line() +
+  scale_x_continuous(breaks = c(2, 4, 6, 8, 10)) +
+  xlab('Number of clusters')
+scree_plot
+
+scree_plot +
+  geom_hline(
+    yintercept = wss, 
+    linetype = 'dashed', 
+    col = c(rep('#000000',4),'#FF0000', rep('#000000', 5))
+  )
+
+# number of clusters to generate
+k <- 5
+set.seed(123)
+# Build another model with k clusters: km.out
+km.out <- kmeans(cluster_NFkB, centers = 5, nstart = 20)
+
+km.out
+
+aggregate(cluster_NFkB, by=list(cluster=km.out$cluster), mean)
+dd <- cbind(cluster_NFkB, cluster=km.out$cluster)
+head(dd)
+
+#plot the clusters
+ggplot(dd, aes(TLevels, NFkB, colour = cluster)) +
+  geom_point(alpha = 0.25, size = 5) +
+  xlab("TLevels") +
+  ylab("NFkB")
+
